@@ -119,6 +119,12 @@ class Project_Donations {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-project-donations-public.php';
 
+		/**
+		 * Custom meta box 2 class for metaboxes
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/vendor/CMB2/init.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-metaboxes.php';
+
 		$this->loader = new Project_Donations_Loader();
 
 	}
@@ -150,9 +156,15 @@ class Project_Donations {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Project_Donations_Admin( $this->get_Project_Donations(), $this->get_version() );
+		$metaboxes = new Project_Donations_Metaboxes( $this->get_Project_Donations(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		$this->loader->add_action( 'init', $plugin_admin, 'projects_post_type' );
+		$this->loader->add_action( 'init', $plugin_admin, 'donations_post_type' );
+
+		$this->loader->add_action( 'cmb2_admin_init', $metaboxes, 'yourprefix_register_demo_metabox' );
 
 	}
 
