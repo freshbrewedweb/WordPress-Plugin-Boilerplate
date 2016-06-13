@@ -103,27 +103,33 @@ class Project_Donations {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-loader.php';
 
 		/**
+		 * The class responsible for Project objects.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-project.php';
+
+		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-i18n.php';
 
 		/**
+		 * Custom meta box 2 class for metaboxes
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/vendor/CMB2/init.php';
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-project-donations-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-project-donations-metaboxes.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-project-donations-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-project-donations-shortcodes.php';
 
-		/**
-		 * Custom meta box 2 class for metaboxes
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/vendor/CMB2/init.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-metaboxes.php';
 
 		$this->loader = new Project_Donations_Loader();
 
@@ -164,7 +170,15 @@ class Project_Donations {
 		$this->loader->add_action( 'init', $plugin_admin, 'projects_post_type' );
 		$this->loader->add_action( 'init', $plugin_admin, 'donations_post_type' );
 
-		$this->loader->add_action( 'cmb2_admin_init', $metaboxes, 'yourprefix_register_demo_metabox' );
+		$this->loader->add_action( 'admin_init', $metaboxes, 'init' );
+		$this->loader->add_action( 'admin_menu', $metaboxes, 'add_options_page' );
+		$this->loader->add_action( 'cmb2_admin_init', $metaboxes, 'add_options_page_metabox' );
+
+		$this->loader->add_action( 'cmb2_admin_init', $metaboxes, 'projects_metabox' );
+		$this->loader->add_action( 'cmb2_render_transaction_details', $metaboxes, 'transaction_details', 10, 5 );
+		$this->loader->add_filter( 'cmb2_sanitize_transaction_details', $metaboxes, 'sm_cmb2_sanitize_text_number', 10, 2 );
+
+		$this->loader->add_action( 'cmb2_admin_init', $metaboxes, 'donations_metabox' );
 
 	}
 
@@ -178,9 +192,21 @@ class Project_Donations {
 	private function define_public_hooks() {
 
 		$plugin_public = new Project_Donations_Public( $this->get_Project_Donations(), $this->get_version() );
+		$shortcodes = new Project_Donations_Shortcodes( $this->get_Project_Donations(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_filter( 'the_content', $plugin_public, 'append_donation_form' );
+
+		$this->loader->add_action( 'init', $shortcodes, 'register_shortcodes' );
+		/**
+		 * Action instead of template tag.
+		 *
+		 * do_action( 'course_list' );
+		 *
+		 * @link 	http://nacin.com/2010/05/18/rethinking-template-tags-in-plugins/
+		 */
+		$this->loader->add_action( 'donation_form', $shortcodes, 'get_paypal_form' );
 
 	}
 
@@ -223,5 +249,6 @@ class Project_Donations {
 	public function get_version() {
 		return $this->version;
 	}
+
 
 }

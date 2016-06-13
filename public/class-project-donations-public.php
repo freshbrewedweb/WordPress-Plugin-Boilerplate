@@ -100,4 +100,16 @@ class Project_Donations_Public {
 
 	}
 
+	/**
+	 * Append the donation form to project content.
+	 * @return [type] [description]
+	 */
+	public function append_donation_form( $content ) {
+		if( get_post_type() == "projects" ) {
+			$form = apply_filters( 'donation_form', get_the_ID() );
+			$content .= $form;
+		}
+		return $content;
+	}
+
 }
