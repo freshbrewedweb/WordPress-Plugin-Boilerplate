@@ -261,11 +261,16 @@ class Project_Donations_Metaboxes
 			),
 		) );
 
-		// Set our CMB2 fields
 		$cmb->add_field( array(
 			'name' => __( 'Paypal Email', $this->Project_Donations ),
 			'id'   => 'paypal_email',
 			'type' => 'text_email',
+		) );
+
+		$cmb->add_field( array(
+			'name' => __( 'Sandbox Mode', $this->Project_Donations ),
+			'id'   => 'sandbox',
+			'type' => 'checkbox',
 		) );
 
 	}

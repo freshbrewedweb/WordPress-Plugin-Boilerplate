@@ -114,6 +114,10 @@ class Project_Donations_Shortcodes {
 
 		 $html .= '<div class-="form-group">';
 
+		 if( $project->getDonationType() == "monthly" ) {
+			 $html .= '<input type="hidden" name="cmd" value="_xclick-subscriptions">';
+		 }
+
 		 if( $project->getDonationAmount() ) {
 			 $html .= '<input type="hidden" name="amount" value="' . $project->getDonationAmount() . '">';
 			 $donate_text = ' ' . money_format('%.2n', $project->getDonationAmount() );

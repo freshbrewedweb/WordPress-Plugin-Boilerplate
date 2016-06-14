@@ -103,6 +103,11 @@ class Project_Donations {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-loader.php';
 
 		/**
+		 * Payment Processing Class
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-process.php';
+
+		/**
 		 * The class responsible for Project objects.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-project.php';
@@ -193,11 +198,16 @@ class Project_Donations {
 
 		$plugin_public = new Project_Donations_Public( $this->get_Project_Donations(), $this->get_version() );
 		$shortcodes = new Project_Donations_Shortcodes( $this->get_Project_Donations(), $this->get_version() );
+		$payments = new Project_Donations_Process_Donation( $this->get_Project_Donations(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_filter( 'the_content', $plugin_public, 'append_donation_form' );
 
+		//Process Payments
+		$this->loader->add_action( 'rest_api_init', $payments, 'register_routes' );
+
+		//Shortcodes
 		$this->loader->add_action( 'init', $shortcodes, 'register_shortcodes' );
 		/**
 		 * Action instead of template tag.
