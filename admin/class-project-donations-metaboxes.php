@@ -175,15 +175,15 @@ class Project_Donations_Metaboxes
 		) );
 
 		$txn->add_field( array(
-			'name'             => __( 'Transaction Response', $this->Project_Donations ),
-			'id'               => $prefix . 'response',
-			'type'             => 'transaction_details',
-		) );
-
-		$txn->add_field( array(
 			'name'             => __( 'Amount', $this->Project_Donations ),
 			'id'               => $prefix . 'amount',
 			'type'             => 'text_money',
+		) );
+
+		$txn->add_field( array(
+			'name'             => __( 'Transaction Response', $this->Project_Donations ),
+			'id'               => $prefix . 'response',
+			'type'             => 'transaction_details',
 		) );
 
 	}
