@@ -112,13 +112,17 @@ class Project_Donations_Process_Donation
 		  $content[$item[0]] = $item[1];
 	  }
 	  $post = wp_insert_post( array(
-	    'post_title' => $_POST['txn_id'] . ' – ' . $_POST['payer_email'],
+	    'post_title' => $_POST['txn_id'] . '(' . $_POST['payer_email'] . ' to ' . $_POST['item_name'] . ')' ,
 	    'post_content' => json_encode($content),
 	    'post_type' => 'donations',
 	    'post_status' => 'publish'
 	  ) );
 
       if( $post ) {
+
+        $donation = new Donation($post->ID);
+        $donation->setAmount($_POST['mc_gross']);
+        $donation->setProject($_POST['item_number']);
 
         // //Add to mailchimp list
         // $mail = new Mailchimp('9c4d1330f441bd2bdf5b0e496e4a4425-us9');

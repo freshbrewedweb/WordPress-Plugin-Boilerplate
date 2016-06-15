@@ -129,7 +129,17 @@ class Project_Donations_Metaboxes
 	 * @param  CMB2_Field object $field      Field object
 	 */
 	public function transaction_details( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
-		  echo $field_type_object->input( array( 'class' => 'cmb2-text-small', 'type' => 'number' ) );
+			$donation = new Donation($object_id);
+			$details = '<table class="form-table">';
+			foreach( $donation->getTransaction() as $k => $v ) {
+				$k = ucfirst(str_replace('_', ' ', $k));
+				$v = urldecode($v);
+				$details .= "<tr><td class=\"row-title\">$k</td>";
+				$details .= "<td><em>$v</em></td></tr>";
+			}
+			$details .= '</table>';
+			echo $details;
+
 	}
 
 	public function sm_cmb2_sanitize_text_number( $null, $new ) {
@@ -151,10 +161,9 @@ class Project_Donations_Metaboxes
 		) );
 
 		$mb->add_field( array(
-			'name'             => __( 'Projects', $this->Project_Donations ),
-			'desc'             => __( 'Donation made to these projects.', 'cmb2' ),
-			'id'               => $prefix . 'select',
-			'type'             => 'multicheck',
+			'name'             => __( 'Project', $this->Project_Donations ),
+			'id'               => $prefix . 'project',
+			'type'             => 'radio',
 			'show_option_none' => false,
 			'options_cb' => array($this, 'get_projects'),
 		) );
@@ -166,9 +175,15 @@ class Project_Donations_Metaboxes
 		) );
 
 		$txn->add_field( array(
-			'name'             => __( 'Transaction ID', $this->Project_Donations ),
-			'id'               => $prefix . 'payment_type',
+			'name'             => __( 'Transaction Response', $this->Project_Donations ),
+			'id'               => $prefix . 'response',
 			'type'             => 'transaction_details',
+		) );
+
+		$txn->add_field( array(
+			'name'             => __( 'Amount', $this->Project_Donations ),
+			'id'               => $prefix . 'amount',
+			'type'             => 'text_money',
 		) );
 
 	}

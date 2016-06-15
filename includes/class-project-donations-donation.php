@@ -1,6 +1,6 @@
 <?php
 /**
- * Project Object
+ * Donation Object
  *
  * @link       http://example.com
  * @since      1.0.0
@@ -8,7 +8,7 @@
  * @package    Project_Donations
  * @subpackage Project_Donations/Project
  */
-class Project
+class Donation
 {
   /**
    * The project ID
@@ -47,13 +47,13 @@ class Project
 	 * @param      string    $Project_Donations       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $project_id ) {
+	public function __construct( $donation_id ) {
 
-    $this->post = get_post($project_id);
+    $this->post = get_post($donation_id);
     $this->id = $this->post->ID;
     $this->name = $this->post->post_title;
     $this->slug = $this->post->post_name;
-    $this->key = 'wppd_project_';
+    $this->key = 'wppd_donation_';
 
 	}
 
@@ -86,28 +86,58 @@ class Project
    * Get Donation Amount
    * @return str
    */
-  public function getDonationAmount() {
-    if( $this->meta('donation_amount') ) {
-      return $this->meta('donation_amount');
+  public function getAmount() {
+    if( $this->meta('amount') ) {
+      return $this->meta('amount');
     } else {
       return false;
     }
   }
 
   /**
-   * Get Donation Type
+   * Get Donation Amount
    * @return str
    */
-  public function getDonationType() {
-    return $this->meta('donation_type');
+  public function getTransaction() {
+    return json_decode($this->post->post_content, TRUE);
   }
 
   /**
    * Get Donation Type
    * @return str
    */
-  public function updateMeta() {
-    return $this->meta('donation_type');
+  public function getProjects() {
+    if( $this->meta('project') ) {
+      return $this->meta('project');
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Update donation post meta
+   * @return str
+   */
+  private function updateMeta( $name, $value ) {
+    if ( ! add_post_meta( $this->ID, $this->key . $name, $value, true ) ) {
+       return update_post_meta( $this->ID, $this->key . $name, $value );
+    }
+
+    return false;
+  }
+
+  /**
+   * Set Donation Amount in post meta
+   */
+  public function setAmount( $amount ) {
+    return $this->updateMeta('amount', $amount);
+  }
+
+  /**
+   * Set the associated project ID
+   */
+  public function setProject( $project_id ) {
+    return $this->updateMeta('project', $project_id);
   }
 
 }

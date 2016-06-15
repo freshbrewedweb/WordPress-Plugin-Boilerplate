@@ -96,19 +96,15 @@ class Project_Donations_Shortcodes {
 		 $project = new Project($project_id);
 
 		 $html = '';
-
-		 $paypal_email = $this->option('paypal_email');
-		 $meta = get_post_meta($project->ID);
-
      $html .= '
        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
          <input type="hidden" name="cmd" value="_xclick">
-         <input type="hidden" name="business" value="'. $paypal_email .'">
+         <input type="hidden" name="business" value="'. $this->option('paypal_email') .'">
          <input type="hidden" name="item_name" value="'. $project->getName() .'">
          <input type="hidden" name="item_number" value="'. $project->getID() .'">
          <input type="hidden" name="quantity" value="1">
          <input type="hidden" name="no_note" value="1">
-         <input type="hidden" name="notify_url" value="https://valhallamovement.com/projects/sustainability-learning-center/ipn/index.php">
+         <input type="hidden" name="notify_url" value="'. get_home_url() .'/wp-json/project-donations/paypal">
          <input type="hidden" name="currency_code" value="USD">
      ';
 

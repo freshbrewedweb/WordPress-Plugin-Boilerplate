@@ -113,6 +113,11 @@ class Project_Donations {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-project.php';
 
 		/**
+		 * The class responsible for Donation objects.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-donation.php';
+
+		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
