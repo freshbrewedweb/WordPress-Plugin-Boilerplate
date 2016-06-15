@@ -179,6 +179,7 @@ class Project_Donations {
 
 		$this->loader->add_action( 'init', $plugin_admin, 'projects_post_type' );
 		$this->loader->add_action( 'init', $plugin_admin, 'donations_post_type' );
+		$this->loader->add_action( 'init', $plugin_admin, 'campaign_taxonomy' );
 
 		$this->loader->add_action( 'admin_init', $metaboxes, 'init' );
 		$this->loader->add_action( 'admin_menu', $metaboxes, 'add_options_page' );

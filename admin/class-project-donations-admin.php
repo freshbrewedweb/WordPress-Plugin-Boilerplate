@@ -221,5 +221,54 @@ class Project_Donations_Admin {
 
 	}
 
+	/**
+	 * Create Campaign taxonomy for Projects post type
+	 *
+	 * @since    1.0.0
+	 */
+	 // Register Custom Taxonomy
+	 public function campaign_taxonomy() {
+
+	 	$labels = array(
+	 		'name'                       => _x( 'Campaigns', 'Taxonomy General Name', 'wp-classroom' ),
+	 		'singular_name'              => _x( 'Campaign', 'Taxonomy Singular Name', 'wp-classroom' ),
+	 		'menu_name'                  => __( 'Campaign', 'wp-classroom' ),
+	 		'all_items'                  => __( 'All Campaigns', 'wp-classroom' ),
+	 		'parent_item'                => __( 'Parent Campaign', 'wp-classroom' ),
+	 		'parent_item_colon'          => __( 'Parent Campaign:', 'wp-classroom' ),
+	 		'new_item_name'              => __( 'New Campaign Name', 'wp-classroom' ),
+	 		'add_new_item'               => __( 'Add New Campaign', 'wp-classroom' ),
+	 		'edit_item'                  => __( 'Edit Campaign', 'wp-classroom' ),
+	 		'update_item'                => __( 'Update Campaign', 'wp-classroom' ),
+	 		'view_item'                  => __( 'View Campaign', 'wp-classroom' ),
+	 		'separate_items_with_commas' => __( 'Separate campaigns with commas', 'wp-classroom' ),
+	 		'add_or_remove_items'        => __( 'Add or remove campaigns', 'wp-classroom' ),
+	 		'choose_from_most_used'      => __( 'Choose from the most used', 'wp-classroom' ),
+	 		'popular_items'              => __( 'Popular Campaigns', 'wp-classroom' ),
+	 		'search_items'               => __( 'Search Campaigns', 'wp-classroom' ),
+	 		'not_found'                  => __( 'Not Found', 'wp-classroom' ),
+	 		'no_terms'                   => __( 'No Campaigns', 'wp-classroom' ),
+	 		'items_list'                 => __( 'Campaign list', 'wp-classroom' ),
+	 		'items_list_navigation'      => __( 'Campaign list navigation', 'wp-classroom' ),
+	 	);
+		$rewrite = array(
+			'slug'                       => 'campaign',
+			'with_front'                 => true,
+			'hierarchical'               => false,
+		);
+	 	$args = array(
+	 		'labels'                     => $labels,
+	 		'hierarchical'               => true,
+	 		'public'                     => true,
+	 		'show_ui'                    => true,
+	 		'show_admin_column'          => true,
+	 		'show_in_nav_menus'          => true,
+	 		'show_tagcloud'              => true,
+	 		'rewrite'              			 => $rewrite,
+	 	);
+	 	register_taxonomy( 'campaign', array( 'projects' ), $args );
+
+	 }
+
 
 }
