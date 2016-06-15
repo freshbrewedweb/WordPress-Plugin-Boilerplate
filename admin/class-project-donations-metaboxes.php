@@ -206,6 +206,23 @@ class Project_Donations_Metaboxes
 			),
 		) );
 
+		/**
+		 * Sample metabox to demonstrate each field type included
+		 */
+		$mailchimp = new_cmb2_box( array(
+			'id'            => $prefix . 'mailchimp',
+			'title'         => __( 'Mailchimp', $this->Project_Donations ),
+			'object_types'  => array( 'projects' ), // Post type
+		) );
+
+		$mailchimp->add_field( array(
+			'name'             => __( 'List ID', $this->Project_Donations ),
+			'desc'						 => __( 'Enter the Mailchimp list ID emails should be added to after a donation.', $this->Project_Donations ),
+			'id'               => $prefix . 'mailchimp_list_id',
+			'type'             => 'text',
+		) );
+
+
 	}
 
 

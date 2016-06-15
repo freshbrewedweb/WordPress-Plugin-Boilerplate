@@ -69,7 +69,7 @@ class Project_Donations_Process_Donation
    */
   public function register_routes() {
     register_rest_route( $this->Project_Donations, 'paypal', array(
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => array($this,'paypal')
       )
     );
