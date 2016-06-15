@@ -110,6 +110,9 @@ class Project_Donations_Process_Donation
     // TO DO
 
     // Valid IPN
+    //
+    return $_POST;
+
     if ( empty($errors) && $verified = $listener->processIpn()) {
 
       $transactionRawData = $listener->getRawPostData();      // raw data from PHP input stream
