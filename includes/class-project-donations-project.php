@@ -14,6 +14,12 @@ class Project
    * The project ID
    * @var int
    */
+  protected $Project_Donations;
+
+  /**
+   * The project ID
+   * @var int
+   */
   private $id;
 
   /**
@@ -49,6 +55,7 @@ class Project
 	 */
 	public function __construct( $project_id ) {
 
+    $this->Project_Donations = 'project-donations';
     $this->post = get_post($project_id);
     $this->id = $this->post->ID;
     $this->name = $this->post->post_title;
@@ -56,6 +63,16 @@ class Project
     $this->key = 'wppd_project_';
 
 	}
+
+  /**
+	 * Get Project Donation option from the options table
+	 *
+	 * @return [type] [description]
+	 */
+	private function option( $key ) {
+		$option = get_option( $this->option_key );
+		return $option[$key];
+	} // register_shortcodes()
 
   /**
    * Get the project post meta
@@ -103,11 +120,73 @@ class Project
   }
 
   /**
+   * Get Description
+   * @return str
+   */
+  public function getDescription() {
+    return apply_filters('the_content', $this->post->post_content);
+  }
+
+  /**
+   * Get Short Description
+   * @return str
+   */
+  public function getShortDescription() {
+    return $this->post->post_excerpt;
+  }
+
+  /**
    * Get Donation Type
    * @return str
    */
   public function updateMeta() {
     return $this->meta('donation_type');
   }
+
+  /**
+   * Output Paypal Form HTML
+   * @return [type] [description]
+   */
+  public function getPaypalForm( $args ) {
+    $html = '';
+    $html .= '
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="business" value="'. $this->option('paypal_email') .'">
+        <input type="hidden" name="item_name" value="'. $this->name .'">
+        <input type="hidden" name="item_number" value="'. $this->id .'">
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="no_note" value="1">
+        <input type="hidden" name="notify_url" value="'. get_home_url() .'/wp-json/project-donations/paypal">
+        <input type="hidden" name="currency_code" value="USD">
+    ';
+
+    foreach( $args as $key => $val ) {
+      $html .= '<input type="hidden" name="'.$key.'" value="'.$val.'">';
+    }
+
+    if( $this->getDonationType() == "monthly" ) {
+      $html .= '<input type="hidden" name="cmd" value="_xclick-subscriptions">';
+    } else {
+      $html .= '<input type="hidden" name="cmd" value="_xclick">';
+    }
+
+    if( $this->getDonationAmount() ) {
+      $html .= '<input type="hidden" name="amount" value="' . $this->getDonationAmount() . '">';
+      $donate_text = ' ' . money_format('%.2n', $this->getDonationAmount() );
+    } else {
+      $html .= '<div class-="form-group">';
+      $html .= '<input type="number" class="form-control" name="amount">';
+      $donate_text = '';
+    }
+
+    $html .= '<button type="submit" name="submit" class="btn btn-primary">' . __('Donate', $this->Project_Donations) . $donate_text.'</button>';
+
+    $html .= '</div>';
+
+    $html .= '</form>';
+
+    return $html;
+  }
+
 
 }

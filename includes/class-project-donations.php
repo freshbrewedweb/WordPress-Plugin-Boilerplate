@@ -103,19 +103,12 @@ class Project_Donations {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-loader.php';
 
 		/**
-		 * Payment Processing Class
+		 * Project Donation Classes
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-process.php';
-
-		/**
-		 * The class responsible for Project objects.
-		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-project.php';
-
-		/**
-		 * The class responsible for Donation objects.
-		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-donation.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-project-donations-campaign.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality

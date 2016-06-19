@@ -94,42 +94,7 @@ class Project_Donations_Shortcodes {
 	 */
 	 public function get_paypal_form( $project_id ) {
 		 $project = new Project($project_id);
-
-		 $html = '';
-     $html .= '
-       <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-         <input type="hidden" name="cmd" value="_xclick">
-         <input type="hidden" name="business" value="'. $this->option('paypal_email') .'">
-         <input type="hidden" name="item_name" value="'. $project->getName() .'">
-         <input type="hidden" name="item_number" value="'. $project->getID() .'">
-         <input type="hidden" name="quantity" value="1">
-         <input type="hidden" name="no_note" value="1">
-         <input type="hidden" name="notify_url" value="'. get_home_url() .'/wp-json/project-donations/paypal">
-         <input type="hidden" name="currency_code" value="USD">
-     ';
-
-		 $html .= '<div class-="form-group">';
-
-		 if( $project->getDonationType() == "monthly" ) {
-			 $html .= '<input type="hidden" name="cmd" value="_xclick-subscriptions">';
-		 }
-
-		 if( $project->getDonationAmount() ) {
-			 $html .= '<input type="hidden" name="amount" value="' . $project->getDonationAmount() . '">';
-			 $donate_text = ' ' . money_format('%.2n', $project->getDonationAmount() );
-		 } else {
-			 $html .= '<input type="number" class="form-control" name="amount">';
-			 $donate_text = '';
-		 }
-
-     $html .= '<button type="submit" name="submit" class="btn btn-primary">Donate'.$donate_text.'</button>';
-
-		 $html .= '</div>';
-
-     $html .= '</form>';
-
-		 return $html;
-
+		 return $project->getPaypalForm();
 	 }
 
 }
