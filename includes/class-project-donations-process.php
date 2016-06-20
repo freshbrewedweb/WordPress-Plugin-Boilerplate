@@ -121,8 +121,10 @@ class Project_Donations_Process_Donation
       if( $post ) {
 
         $donation = new Donation($post->ID);
-        $donation->setAmount($_POST['mc_gross']);
-        $donation->setProject($_POST['item_number']);
+        $amount = $donation->setAmount($_POST['mc_gross']);
+        $item = $donation->setProject($_POST['item_number']);
+
+        do_shortcode('[affiliate_conversion_script amount="'.$amount.'" description="Donation to project #'.$item.'" context="Paypal Confirmation" reference="donation–'.$post->ID.'"]');
 
         // //Add to mailchimp list
         // $mail = new Mailchimp('9c4d1330f441bd2bdf5b0e496e4a4425-us9');
