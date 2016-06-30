@@ -170,11 +170,12 @@ class Project
       $html .= '<input type="hidden" name="cmd" value="_xclick">';
     }
 
+    $html .= '<div class-="form-group">';
+
     if( $this->getDonationAmount() ) {
       $html .= '<input type="hidden" name="amount" value="' . $this->getDonationAmount() . '">';
       $donate_text = ' ' . money_format('%.2n', $this->getDonationAmount() );
     } else {
-      $html .= '<div class-="form-group">';
       $html .= '<input type="number" class="form-control" name="amount">';
       $donate_text = '';
     }
