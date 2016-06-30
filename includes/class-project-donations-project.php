@@ -170,8 +170,8 @@ class Project
       $html .= '<input type="hidden" name="cmd" value="_xclick">';
     }
 
-    $html .= '<div class-="form-group">';
-
+    //Amount Input
+    $html .= '<div class="form-group">';
     if( !empty($this->getDonationAmount() + 0) ) {
       $html .= '<input type="hidden" name="amount" value="' . $this->getDonationAmount() . '">';
       $donate_text = ' ' . money_format('%.2n', $this->getDonationAmount() );
@@ -179,10 +179,11 @@ class Project
       $html .= '<input type="number" class="form-control" name="amount">';
       $donate_text = '';
     }
-
-    $html .= '<button type="submit" name="submit" class="btn btn-primary">' . __('Donate', $this->Project_Donations) . $donate_text.'</button>';
-
     $html .= '</div>';
+
+    //Donate Button
+    $html .= '<div class="form-group"><button type="submit" name="submit" class="btn btn-primary">' . __('Donate', $this->Project_Donations) . $donate_text.'</button></div>';
+
 
     $html .= '</form>';
 
