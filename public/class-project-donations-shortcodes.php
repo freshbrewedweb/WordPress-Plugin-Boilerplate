@@ -80,8 +80,9 @@ class Project_Donations_Shortcodes {
 	 * Donation Form Shortcode
 	 */
 	 public function donation_form_shortcode( $atts ) {
-		 if( !isset($atts['project_id']) && get_post_type('projects') ) {
-			 $project_id = get_the_ID();
+		 if( !isset($atts['project_id']) && get_post_type() == 'projects' ) {
+			 global $post;
+			 $project_id = $post->ID;
 		 } elseif( isset($atts['project_id']) ) {
 			 $project_id = $atts['project_id'];
 		 }
