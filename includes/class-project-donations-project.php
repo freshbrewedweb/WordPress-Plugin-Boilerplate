@@ -70,7 +70,7 @@ class Project
 	 * @return [type] [description]
 	 */
 	private function option( $key ) {
-		$option = get_option( $this->option_key );
+		$option = get_option( $this->key );
 		return $option[$key];
 	} // register_shortcodes()
 
@@ -147,7 +147,7 @@ class Project
    * Output Paypal Form HTML
    * @return [type] [description]
    */
-  public function getPaypalForm( $args ) {
+  public function getPaypalForm( $args = [] ) {
     $html = '';
     $html .= '
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
