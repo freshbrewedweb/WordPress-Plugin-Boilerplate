@@ -172,7 +172,7 @@ class Project
 
     $html .= '<div class-="form-group">';
 
-    if( $this->getDonationAmount() ) {
+    if( !empty($this->getDonationAmount() + 0) ) {
       $html .= '<input type="hidden" name="amount" value="' . $this->getDonationAmount() . '">';
       $donate_text = ' ' . money_format('%.2n', $this->getDonationAmount() );
     } else {
