@@ -70,7 +70,7 @@ class Project
 	 * @return [type] [description]
 	 */
 	private function option( $key ) {
-		$option = get_option( $this->key );
+		$option = get_option( 'wppd_options' );
 		return $option[$key];
 	} // register_shortcodes()
 
