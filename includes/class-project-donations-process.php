@@ -1,6 +1,7 @@
 <?php
 
 use wadeshuler\paypalipn\IpnListener;
+use Mailchimp;
 
 class Project_Donations_Process_Donation
 {
