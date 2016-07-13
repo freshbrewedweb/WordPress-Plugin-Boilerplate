@@ -305,6 +305,12 @@ class Project_Donations_Metaboxes
 			'type' => 'checkbox',
 		) );
 
+		$cmb->add_field( array(
+			'name' => __( 'Mailchimp API Key', $this->Project_Donations ),
+			'id'   => 'mailchimp_api',
+			'type' => 'text',
+		) );
+
 	}
 
 	/**

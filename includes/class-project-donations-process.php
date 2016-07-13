@@ -81,6 +81,25 @@ class Project_Donations_Process_Donation
     );
   }
 
+  //Add to mailchimp list
+  public function addToMailchimp( $list_id, $email ) {
+    $api_key = $this->option('mailchimp_api');
+    $mail = new Mailchimp($api_key);
+    $lists = new Mailchimp_Lists( $mail );
+
+    $subscriber = $lists->subscribe( $list_id, array(
+      'email' => htmlentities($email),
+    ));
+
+    if( !empty( $subscriber['leid'] ) ) {
+      $donation["subscribed_to_mail"] = 1;
+    } else {
+      $donation["subscribed_to_mail"] = NULL;
+    }
+
+    return $donation["subscribed_to_mail"];
+  }
+
   /**
    * Process Paypal IPN
    * @return [type] [description]
@@ -128,20 +147,7 @@ class Project_Donations_Process_Donation
           do_shortcode('[affiliate_conversion_script amount="'.$amount.'" description="Donation to project #'.$item.'" context="Paypal Confirmation" reference="donation–'.$post->ID.'"]');
         }
 
-        // //Add to mailchimp list
-        // $mail = new Mailchimp('9c4d1330f441bd2bdf5b0e496e4a4425-us9');
-        // $lists = new Mailchimp_Lists( $mail );
-        // $list_id = '5e9cf25115';
-        //
-        // $subscriber = $lists->subscribe( $list_id, array(
-        //   'email' => htmlentities($donation['email']),
-        // ));
-        //
-        // if( !empty( $subscriber['leid'] ) ) {
-        //   $donation["subscribed_to_mail"] = 1;
-        // } else {
-        //   $donation["subscribed_to_mail"] = NULL;
-        // }
+        $this->addToMailchimp('5e9cf25115', $_POST['payer_email']);
 
         file_put_contents(plugin_dir_path( __FILE__ ) . 'logs/success.log', print_r(array($logTime, $transactionData), TRUE) . PHP_EOL, LOCK_EX | FILE_APPEND);
 

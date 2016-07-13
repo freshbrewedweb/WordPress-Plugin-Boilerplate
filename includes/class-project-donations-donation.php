@@ -130,14 +130,16 @@ class Donation
    * Set Donation Amount in post meta
    */
   public function setAmount( $amount ) {
-    return $this->updateMeta('amount', $amount);
+    if( $this->updateMeta('amount', $amount) )
+      return $amount;
   }
 
   /**
    * Set the associated project ID
    */
   public function setProject( $project_id ) {
-    return $this->updateMeta('project', $project_id);
+    if( $this->updateMeta('project', $project_id) )
+      return $project_id;
   }
 
 }
