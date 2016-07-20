@@ -28,11 +28,22 @@ class ComposerStaticInitfab444e8c56cab2dcc11a553dd37e94e
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'M' => 
+        array (
+            'Mailchimp' => 
+            array (
+                0 => __DIR__ . '/..' . '/mailchimp/mailchimp/src',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitfab444e8c56cab2dcc11a553dd37e94e::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitfab444e8c56cab2dcc11a553dd37e94e::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitfab444e8c56cab2dcc11a553dd37e94e::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

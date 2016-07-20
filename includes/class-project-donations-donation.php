@@ -119,8 +119,8 @@ class Donation
    * @return str
    */
   private function updateMeta( $name, $value ) {
-    if ( ! add_post_meta( $this->ID, $this->key . $name, $value, true ) ) {
-       return update_post_meta( $this->ID, $this->key . $name, $value );
+    if ( ! add_post_meta( $this->id, $this->key . $name, $value, true ) ) {
+       return update_post_meta( $this->id, $this->key . $name, $value );
     }
 
     return false;
